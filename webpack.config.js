@@ -8,6 +8,7 @@ const isProd = process.env.NODE_ENV === 'production'
 const isDev = !isProd
 
 const filename = ext => isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`
+
 const jsLoaders = () => {
     const loaders = [
         {
@@ -16,11 +17,12 @@ const jsLoaders = () => {
                 presets: ['@babel/preset-env']
             }
         }
-
     ]
+
     if (isDev) {
-        loaders.push('eslint-loaders')
+        loaders.push('eslint-loader')
     }
+
     return loaders
 }
 
@@ -83,7 +85,6 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: jsLoaders()
-
             }
         ]
     }
