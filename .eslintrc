@@ -15,7 +15,8 @@
     "eol-last": "off",
     "quotes": "off",
     "no-trailing-spaces": "off",
-    "padded-blocks": "off"
+    "padded-blocks": "off",
+    "operator-linebreak": "off"
   },
   "extends": ["eslint:recommended", "google"]
 }
