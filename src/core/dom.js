@@ -1,10 +1,8 @@
 class Dom {
     constructor(selector) {
-        // #app
         this.$el = typeof selector === 'string'
             ? document.querySelector(selector)
             : selector
-
     }
 
     html(html) {
@@ -32,11 +30,13 @@ class Dom {
         if (node instanceof Dom) {
             node = node.$el
         }
+
         if (Element.prototype.append) {
             this.$el.append(node)
         } else {
             this.$el.appendChild(node)
         }
+
         return this
     }
 
@@ -56,8 +56,17 @@ class Dom {
         return this.$el.querySelectorAll(selector)
     }
 
-}
+    /*
+    * {
+    *   height: '30px',
+    *   width: '42px',
+    *   backgroundColor: red
+    * }
+    * */
+    css(styles = {}) {
 
+    }
+}
 
 // event.target
 export function $(selector) {
@@ -70,5 +79,4 @@ $.create = (tagName, classes = '') => {
         el.classList.add(classes)
     }
     return $(el)
-
 }
