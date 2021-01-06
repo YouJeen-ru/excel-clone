@@ -17,7 +17,6 @@ export class DomListener {
                 const name = this.name || ''
                 throw new Error(`Method is not implemented in ${name} Component`)
             }
-            console.log(method)
             this[method] = this[method].bind(this)
             // analog AddEventListener
             this.$root.on(listener, this[method])
