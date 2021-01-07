@@ -5,11 +5,13 @@ export class ExcelComponent extends DomListener {
         super($root, options.listeners);
         this.name = options.name || ''
         this.emitter = options.emitter
+        this.unsubscribers = []
 
 
         this.prepare()
     }
 
+    // Настраиваем наш компонент до init
     prepare() {
 
     }
@@ -19,11 +21,27 @@ export class ExcelComponent extends DomListener {
         return ''
     }
 
+    // Уведомляем слушателей про событие event
+    $emit(event, ...args) {
+        this.emitter.emit(event, ...args)
+    }
+
+    // Подписываемся на событие event
+    $on(event, fn) {
+        const unsub = this.emitter.subscribe(event, fn)
+        this.unsubscribers.push(unsub)
+    }
+
+    // Инициализируем проект
+    // Добовляем DOM слушателей
     init() {
         this.initDomListeners()
     }
 
+    // Удаляем компонент
+    // Чистим слушателя
     destroy() {
         this.removeDomListeners()
+        this.unsubscribers.forEach(unsub => unsub())
     }
 }
