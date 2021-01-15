@@ -1,9 +1,9 @@
 import {ExcelComponent} from '@core/ExcelComponent'
+import {$} from '@core/dom'
 import {createTable} from '@/components/table/table.template'
-import {resizeHandler} from "@/components/table/table.resize";
-import {isCell, matrix, nextSelector, shouldResize} from "@/components/table/table.functions";
-import {TableSelection} from "@/components/table/TableSelection";
-import {$} from "@core/dom";
+import {resizeHandler} from '@/components/table/table.resize'
+import {isCell, matrix, nextSelector, shouldResize} from './table.functions'
+import {TableSelection} from '@/components/table/TableSelection'
 import * as actions from '@/redux/actions'
 
 export class Table extends ExcelComponent {
@@ -23,11 +23,11 @@ export class Table extends ExcelComponent {
 
     prepare() {
         this.selection = new TableSelection()
-
     }
 
     init() {
         super.init()
+
         this.selectCell(this.$root.find('[data-id="0:0"]'))
 
         this.$on('formula:input', text => {
@@ -39,7 +39,7 @@ export class Table extends ExcelComponent {
         })
 
         // this.$subscribe(state => {
-        //     console.log('TableState', state)
+        //   console.log('TableState', state)
         // })
     }
 
@@ -53,9 +53,8 @@ export class Table extends ExcelComponent {
             const data = await resizeHandler(this.$root, event)
             this.$dispatch(actions.tableResize(data))
         } catch (e) {
-            console.warn('Resize Error', e.message)
+            console.warn('Resize error', e.message)
         }
-
     }
 
     onMousedown(event) {
@@ -64,17 +63,13 @@ export class Table extends ExcelComponent {
         } else if (isCell(event)) {
             const $target = $(event.target)
             if (event.shiftKey) {
-
-                const $cells = matrix($target, this.selection.current).map(id => this.$root.find(`[data-id="${id}"]`))
+                const $cells = matrix($target, this.selection.current)
+                    .map(id => this.$root.find(`[data-id="${id}"]`))
                 this.selection.selectGroup($cells)
-
             } else {
                 this.selectCell($target)
-
             }
-
         }
-
     }
 
     onKeydown(event) {
@@ -101,4 +96,3 @@ export class Table extends ExcelComponent {
         this.$emit('table:input', $(event.target))
     }
 }
-
