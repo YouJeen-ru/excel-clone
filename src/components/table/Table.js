@@ -34,7 +34,6 @@ export class Table extends ExcelComponent {
         this.$on('formula:input', text => {
             this.selection.current.text(text)
             this.updateTextInStore(text)
-
         })
 
         this.$on('formula:done', () => {
@@ -44,14 +43,14 @@ export class Table extends ExcelComponent {
         this.$on('toolbar:applyStyle', style => {
             this.selection.applyStyle(style)
         })
-
     }
 
     selectCell($cell) {
         this.selection.select($cell)
         this.$emit('table:select', $cell)
-
-        console.log($cell.getStyles(Object.keys(defaultStyles)))
+        const styles = $cell.getStyles(Object.keys(defaultStyles))
+        console.log('Styles to dispatch', styles)
+        this.$dispatch(actions.changeStyles(styles))
     }
 
     async resizeTable(event) {
@@ -106,7 +105,6 @@ export class Table extends ExcelComponent {
     }
 
     onInput(event) {
-        // this.$emit('table:input', $(event.target))
         this.updateTextInStore($(event.target).text())
     }
 }

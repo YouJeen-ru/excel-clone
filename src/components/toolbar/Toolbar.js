@@ -1,6 +1,6 @@
-import {createToolbar} from "@/components/toolbar/toolbar.template";
-import {ExcelStateComponent} from "@core/ExcelStateComponent";
-import {$} from "@core/dom";
+import {createToolbar} from '@/components/toolbar/toolbar.template'
+import {$} from '@core/dom'
+import {ExcelStateComponent} from '@core/ExcelStateComponent'
 import {defaultStyles} from "@/constans";
 
 export class Toolbar extends ExcelStateComponent {
@@ -10,8 +10,9 @@ export class Toolbar extends ExcelStateComponent {
         super($root, {
             name: 'Toolbar',
             listeners: ['click'],
+            subscribe: ['currentStyles'],
             ...options
-        });
+        })
     }
 
     prepare() {
@@ -26,15 +27,15 @@ export class Toolbar extends ExcelStateComponent {
         return this.template
     }
 
+    storeChanged(changes) {
+        this.setState(changes.currentStyles)
+    }
+
     onClick(event) {
         const $target = $(event.target)
         if ($target.data.type === 'button') {
             const value = JSON.parse($target.data.value)
             this.$emit('toolbar:applyStyle', value)
-
-            const key = Object.keys(value)[0]
-            this.setState({[key]: value[key]})
         }
     }
-
 }
