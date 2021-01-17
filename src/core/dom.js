@@ -14,7 +14,7 @@ class Dom {
     }
 
     text(text) {
-        if (typeof text === 'string') {
+        if (typeof text !== 'undefined') {
             this.$el.textContent = text
             return this
         }
@@ -99,6 +99,14 @@ class Dom {
     focus() {
         this.$el.focus()
         return this
+    }
+
+    attr(name, value) {
+        if (value) {
+            this.$el.setAttribute(name, value)
+            return this
+        }
+        return this.$el.getAttribute(name)
     }
 
     addClass(className) {
